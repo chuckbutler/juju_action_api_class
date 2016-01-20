@@ -104,16 +104,14 @@ class ActionEnvironment(jujuclient.Environment):
 class API(object):
     def __init__(self, endpoint, user, secret):
         '''
-        @param api_endpoint
-        @param api_user
-        @param api_secret
+        @param endpoint
+        @param user
+        @param secret
         '''
 
-
-        
         try:
-            env = ActionEnvironment(api_endpoint)
-            env.login(api_secret, user=api_user)
+            env = ActionEnvironment(endpoint)
+            env.login(secret, user=user)
         except jujuclient.EnvError as e:
             raise e
 
