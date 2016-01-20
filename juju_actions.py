@@ -1,6 +1,7 @@
 import jujuclient
 import os
 
+
 class Action():
     def __init__(self, uid, data, juju_status):
         # I am undecided if we need this
@@ -8,6 +9,11 @@ class Action():
         self.uuid = ""
         self.data = data  # straight from juju api
         self.juju_status = juju_status
+
+    @classmethod
+    def from_data(cls, data):
+        o = cls(data=data)
+        return o
 
 
 def get_service_units(status):
@@ -209,7 +215,7 @@ class ActionProperty(Dict):
         'number': float,
     }
     type_checks = {
-        basestring: 'string',
+        str: 'string',
         int: 'integer',
         bool: 'boolean',
         float: 'number',
