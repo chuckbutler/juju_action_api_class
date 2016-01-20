@@ -9,6 +9,7 @@ class Action():
         self.data = data  # straight from juju api
         self.juju_status = juju_status
 
+
 def get_service_units(status):
     results = {}
     services = status.get('Services', {})
