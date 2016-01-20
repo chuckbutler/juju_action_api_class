@@ -3,12 +3,12 @@ import os
 
 
 class Action():
-    def __init__(self, uid, data, juju_status):
+    def __init__(self, data):
         # I am undecided if we need this
         # model_id = ""
-        self.uuid = ""
+        self.uuid = data['tag']
         self.data = data  # straight from juju api
-        self.juju_status = juju_status
+        self.juju_status = data['status']
 
     @classmethod
     def from_data(cls, data):
