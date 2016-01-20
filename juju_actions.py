@@ -1,5 +1,5 @@
 import jujuclient
-
+import os
 
 class Action():
     def __init__(self, uid, data, juju_status):
@@ -103,7 +103,7 @@ class ActionEnvironment(jujuclient.Environment):
 
 
 class API(object):
-    def __init__(self, endpoint, user, secret):
+    def __init__(self, user, secret):
         '''
         Establishes a connection between the given state server and this
         class. Provide the params:
@@ -113,13 +113,17 @@ class API(object):
         @param secret - the environment secret generated during juju bootstrap.
         '''
 
-        try:
-            env = ActionEnvironment(endpoint)
-            env.login(secret, user=user)
-        except jujuclient.EnvError as e:
-            raise e
+        api_addresses = os.getenv('JUJU_API_ADDRESSES')
+        if api_addresses:
+            endpoint = 'wss://%s' % api_addresses.split()[0]
 
-        self.env = env
+            try:
+                env = ActionEnvironment(endpoint)
+                env.login(secret, user=user)
+            except jujuclient.EnvError as e:
+                raise e
+
+            self.env = env
 
     def get_status(self):
         return self.env.status()
