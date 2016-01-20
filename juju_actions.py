@@ -155,22 +155,6 @@ class API(object):
         results = self.env.actions_available()
         return _parse_action_specs(results)
 
-    def get_benchmark_action_specs(self):
-        action_specs = self.get_action_specs()
-        if not action_specs:
-            return action_specs
-
-        service_benchmarks = self.db.get_services_benchmarks()
-        for service in action_specs.keys()[:]:
-            if service not in service_benchmarks:
-                continue
-            for spec_name in action_specs[service].keys()[:]:
-                if spec_name not in service_benchmarks[service]:
-                    action_specs[service].pop(spec_name)
-            if not action_specs[service]:
-                action_specs.pop(service)
-        return action_specs
-
     def enqueue_action(self, action, receivers, params):
         result = self.env.actions_enqueue(action, receivers, params)
         return Action.from_data(result['results'][0])
