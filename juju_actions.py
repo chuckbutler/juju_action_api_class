@@ -9,6 +9,7 @@ class Action():
         self.data = data  # straight from juju api
         self.juju_status = juju_status
 
+
 def get_service_units(status):
     results = {}
     services = status.get('Services', {})
@@ -104,9 +105,12 @@ class ActionEnvironment(jujuclient.Environment):
 class API(object):
     def __init__(self, endpoint, user, secret):
         '''
-        @param endpoint
-        @param user
-        @param secret
+        Establishes a connection between the given state server and this
+        class. Provide the params:
+
+        @param endpoint - websocket address of the juju model controller
+        @param user - this is usually 'user-admin', but may change
+        @param secret - the environment secret generated during juju bootstrap.
         '''
 
         try:
@@ -117,22 +121,14 @@ class API(object):
 
         self.env = env
 
-    # @classmethod
-    # def from_settings(cls, settings):
-    #     return cls(DB.from_settings(settings), settings)
-
-    # @classmethod
-    # def from_request(cls, request):
-    #     return cls(DB.from_request(request), request.registry.settings)
-
     def get_status(self):
         return self.env.status()
 
     def get_annotations(self, services):
-        """Return dict of (servicename: annotations) for each servicename
+        '''
+        Return dict of (servicename: annotations) for each servicename
         in `services`.
-
-        """
+        '''
         if not services:
             return None
 
