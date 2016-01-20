@@ -162,10 +162,13 @@ class API(object):
          @param action_tag - the action UUID return from the enqueue method
          eg: action-3428e20d-fcd7-4911-803b-9b857a2e5ec9
         '''
-        status = self.get_status()
-        for action_record in status:
-            if action_record['action']['tag'] == action_tag:
-                return action_record['status']
+        receiver = self.get_actions()
+        for receiver in receiver['actions']:
+            if 'actions' in receiver.keys():
+                for action_record in receiver['actions']:
+                    if 'action' in action_record.keys():
+                        if action_record['action']['tag'] == action_tag:
+                            return action_record['status']
 
     def cancel_action(self, uuid):
         return self.env.actions_cancel(uuid)
