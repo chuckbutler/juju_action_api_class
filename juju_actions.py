@@ -6,7 +6,7 @@ class Action():
     def __init__(self, data):
         # I am undecided if we need this
         # model_id = ""
-        self.uuid = data['tag']
+        self.uuid = data['action']['tag']
         self.data = data  # straight from juju api
         self.juju_status = data['status']
 
