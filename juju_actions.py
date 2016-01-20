@@ -1,8 +1,13 @@
 import jujuclient
 
-from .db import DB
-from .models import Action
 
+class Action():
+    def __init__(self, uid, data, juju_status):
+        # I am undecided if we need this
+        # model_id = ""
+        self.uuid = ""
+        self.data = data  # straight from juju api
+        self.juju_status = juju_status
 
 def get_service_units(status):
     results = {}
@@ -97,28 +102,30 @@ class ActionEnvironment(jujuclient.Environment):
 
 
 class API(object):
-    def __init__(self, db, settings):
-        api_endpoint = settings['juju.api.endpoint']
-        api_user = settings['juju.api.user']
-        api_secret = settings['juju.api.secret']
+    def __init__(self, endpoint, user, secret):
+        '''
+        @param api_endpoint
+        @param api_user
+        @param api_secret
+        '''
 
+
+        
         try:
             env = ActionEnvironment(api_endpoint)
             env.login(api_secret, user=api_user)
         except jujuclient.EnvError as e:
             raise e
 
-        self.db = db
         self.env = env
-        self.settings = settings
 
-    @classmethod
-    def from_settings(cls, settings):
-        return cls(DB.from_settings(settings), settings)
+    # @classmethod
+    # def from_settings(cls, settings):
+    #     return cls(DB.from_settings(settings), settings)
 
-    @classmethod
-    def from_request(cls, request):
-        return cls(DB.from_request(request), request.registry.settings)
+    # @classmethod
+    # def from_request(cls, request):
+    #     return cls(DB.from_request(request), request.registry.settings)
 
     def get_status(self):
         return self.env.status()
