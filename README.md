@@ -57,10 +57,10 @@ The python class found in this repository `juju_actions.py`
 	print(status_result)
 
 	# Connect the turborouter to another one where the same domain is present
-	action_result = api.enqueue_action(‘connect-domains’, [‘unit-vpe-router-0’], { ‘domain-name’: ‘acme’, ‘iface-name’: ‘eth1’, ‘tunnel-name’: ‘tun0’, ‘local-ip’: ‘54.21.10.151’, ‘remote-ip’: ‘54.23.64.131’, ‘tunnel-key’: ‘sesame’, ‘internal-local-ip’: ‘10.1.0.51’, ‘internal-remote-ip’: ‘10.0.0.3’, ‘tunnel-type’: ‘gre’})
+	api.enqueue_action(‘connect-domains’, [‘unit-vpe-router-0’], { ‘domain-name’: ‘acme’, ‘iface-name’: ‘eth1’, ‘tunnel-name’: ‘tun0’, ‘local-ip’: ‘54.21.10.151’, ‘remote-ip’: ‘54.23.64.131’, ‘tunnel-key’: ‘sesame’, ‘internal-local-ip’: ‘10.1.0.51’, ‘internal-remote-ip’: ‘10.0.0.3’, ‘tunnel-type’: ‘gre’})
 
 	# Remove the tunnel to another turborouter where the domain is present
-	action_result = api.enqueue_action(‘delete-domain-connection’, [‘unit-vpe-router-0’], {‘domain-name’: ‘acme’, ‘tunnel-name’: ‘tun0’})
+	api.enqueue_action(‘delete-domain-connection’, [‘unit-vpe-router-0’], {‘domain-name’: ‘acme’, ‘tunnel-name’: ‘tun0’})
 
 	# Remove the corporation completely from the turborouter
-	action_result = api.enqueue_action(‘delete-corporation’, [‘unit-vpe-router-0’], {‘domain-name’: ‘acme’})
+	api.enqueue_action(‘delete-corporation’, [‘unit-vpe-router-0’], {‘domain-name’: ‘acme’})
